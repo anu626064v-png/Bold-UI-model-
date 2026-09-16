@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bold Editorial — UI Starter Template</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            paper: "#F5F2EC",
+            ink: "#0C0C0C",
+            mute: "#6F6B64",
+            line: "#D9D4CA",
+            ash: "#E8E4DC",
+            mark: {
+              DEFAULT: "#D61F26",
+              dark: "#B3141A",
+            },
+          },
+          fontFamily: {
+            display: ["Bodoni Moda", "Times New Roman", "serif"],
+            sans: ["Inter", "system-ui", "ui-sans-serif", "sans-serif"],
+          },
+          letterSpacing: {
+            label: "0.16em",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background: #F5F2EC; color: #0C0C0C; }
+
+    .slot-label {
+      font-family: Inter, system-ui, sans-serif;
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9A958C;
+    }
+
+    /* Reveals */
+    .reveal-up,
+    .reveal-left,
+    .reveal-right {
+      opacity: 0;
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-up { transform: translateY(28px); }
+    .reveal-left { transform: translateX(-40px); }
+    .reveal-right { transform: translateX(40px); }
+    .reveal-up.is-visible,
+    .reveal-left.is-visible,
+    .reveal-right.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .stagger-item {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .stagger-item.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .ph-box {
+      background: #1A1A1A;
+      color: #8A8A8A;
+    }
+    .ph-box-light {
+      background: #E8E4DC;
+      color: #8A857C;
+      border: 1px solid #D9D4CA;
+    }
+
+    /* Sticky nav — paper to ink on scroll */
+    #site-header {
+      background: rgba(245, 242, 236, 0.7);
+      color: #0C0C0C;
+      border-color: transparent;
+      transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+    }
+    #site-header.is-scrolled {
+      background: #0C0C0C;
+      color: #F5F2EC;
+      border-color: #0C0C0C;
+    }
+    #site-header .brand,
+    #site-header .nav-link { color: inherit; }
+    #site-header.is-scrolled .slot-label { color: #7A7A7A; }
+    #site-header .header-cta {
+      background: #0C0C0C;
+      color: #F5F2EC;
+    }
+    #site-header.is-scrolled .header-cta {
+      background: #D61F26;
+      color: #fff;
+    }
+
+    /* Link underline reveal */
+    .link-underline {
+      background-image: linear-gradient(currentColor, currentColor);
+      background-position: 0 100%;
+      background-repeat: no-repeat;
+      background-size: 0 1.5px;
+      transition: background-size 0.3s ease;
+    }
+    .link-underline:hover { background-size: 100% 1.5px; }
+
+    .card-tilt {
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .card-tilt:hover {
+      transform: rotate(-0.6deg) translateY(-4px);
+    }
+
+    .hero-name {
+      font-size: clamp(3.4rem, 11vw, 8.5rem);
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased bg-paper text-ink">
+
+  <!-- =====================================================================
+       HEADER / NAV
+       Contrast flips from paper to ink after scroll.
+       ===================================================================== -->
+  <header id="site-header" class="sticky top-0 z-50 border-b">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 sm:px-8">
+      <div>
+        <p class="slot-label mb-1">Logo / Brand</p>
+        <a href="#hero" class="brand font-display text-xl italic leading-none">[Business Name]</a>
+      </div>
+
+      <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
+        <div>
+          <p class="slot-label mb-1">Nav Link</p>
+          <a href="#about" class="nav-link link-underline text-sm">[Link]</a>
+        </div>
+        <div>
+          <p class="slot-label mb-1">Nav Link</p>
+          <a href="#features" class="nav-link link-underline text-sm">[Link]</a>
+        </div>
+        <div>
+          <p class="slot-label mb-1">Nav Link</p>
+          <a href="#gallery" class="nav-link link-underline text-sm">[Link]</a>
+        </div>
+      </nav>
+
+      <div class="hidden sm:block">
+        <p class="slot-label mb-1 text-right">Header CTA</p>
+        <a href="#cta" class="header-cta inline-flex items-center px-4 py-2 text-xs font-semibold uppercase tracking-label">
+          [Primary Action]
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- =====================================================================
+         1. HERO — left-locked masthead, issue index, offset tagline
+         ===================================================================== -->
+    <section id="hero" class="border-b border-line">
+      <div class="mx-auto max-w-6xl px-6 py-20 sm:px-8 sm:py-28 lg:py-32">
+        <div class="mb-10 flex items-end justify-between gap-6">
+          <div class="reveal-left">
+            <p class="slot-label mb-2">Issue Index</p>
+            <p class="font-display text-sm italic text-mute">No. 01 — Template</p>
+          </div>
+          <div class="reveal-right text-right">
+            <p class="slot-label mb-2">Hero Eyebrow</p>
+            <p class="text-xs font-semibold uppercase tracking-label text-mark">[Small eyebrow text]</p>
+          </div>
+        </div>
+
+        <p class="slot-label mb-3 reveal-left">Hero Heading</p>
+        <h1 class="hero-name reveal-left font-display font-semibold text-ink">
+          [Business<br />Name]
+        </h1>
+
+        <div class="mt-12 grid items-end gap-10 md:grid-cols-12">
+          <div class="reveal-left md:col-span-5 md:col-start-1">
+            <p class="slot-label mb-3">Hero Tagline</p>
+            <p class="max-w-sm text-lg leading-relaxed text-mute">
+              [Short tagline that describes what the business offers in one clear sentence.]
+            </p>
+          </div>
+          <div class="reveal-right flex flex-col gap-3 md:col-span-5 md:col-start-8 md:items-end">
+            <div>
+              <p class="slot-label mb-2 md:text-right">Primary CTA Button</p>
+              <a href="#cta" class="inline-flex items-center bg-ink px-6 py-3 text-xs font-semibold uppercase tracking-label text-paper hover:bg-mark">
+                [Primary Action]
+              </a>
+            </div>
+            <div>
+              <p class="slot-label mb-2 md:text-right">Secondary CTA Button</p>
+              <a href="#about" class="link-underline inline-flex items-center py-2 text-xs font-semibold uppercase tracking-label text-ink">
+                [Secondary Action]
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         2. ABOUT / INTRO — copy left, oversized image block breaking right
+         ===================================================================== -->
+    <section id="about" class="overflow-hidden">
+      <div class="mx-auto grid max-w-6xl items-start gap-12 px-6 py-24 sm:px-8 sm:py-28 lg:grid-cols-12">
+        <div class="reveal-left lg:col-span-5 lg:pt-10">
+          <p class="slot-label mb-4">Section Label</p>
+          <p class="mb-6 text-xs font-semibold uppercase tracking-label text-mark">About — 02</p>
+
+          <p class="slot-label mb-3">About Heading</p>
+          <h2 class="font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl">
+            [Short intro heading]
+          </h2>
+
+          <p class="slot-label mb-3 mt-8">About Body</p>
+          <p class="max-w-md text-base leading-relaxed text-mute">
+            [Short intro about the business goes here. Keep this to two or three sentences that explain who you are and why it matters. Replace this paragraph with real copy later.]
+          </p>
+        </div>
+
+        <div class="reveal-right relative lg:col-span-7 lg:translate-x-8">
+          <p class="slot-label mb-3">About Image</p>
+          <figure class="ph-box flex min-h-[22rem] flex-col items-center justify-center sm:min-h-[28rem]">
+            <svg class="mb-3 h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="0" />
+              <circle cx="8.5" cy="10" r="1.5" />
+              <path d="M21 16l-5-5-9 9" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <figcaption class="text-xs uppercase tracking-label">[Image]</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         3. FEATURES — numbered magazine columns, staggered
+         ===================================================================== -->
+    <section id="features" class="border-y border-line">
+      <div class="mx-auto max-w-6xl px-6 py-24 sm:px-8 sm:py-28">
+        <div class="reveal-up mb-16 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p class="slot-label mb-4">Section Label</p>
+            <p class="mb-4 text-xs font-semibold uppercase tracking-label text-mark">Features / Services — 03</p>
+            <p class="slot-label mb-2">Section Heading</p>
+            <h2 class="font-display text-4xl font-semibold tracking-tight sm:text-5xl">[What you offer]</h2>
+          </div>
+        </div>
+
+        <div class="stagger grid gap-0 md:grid-cols-4">
+
+          <article class="stagger-item card-tilt border-t border-ink py-8 md:border-l-0 md:border-t-0 md:border-r md:border-ink md:px-6 md:py-2">
+            <p class="slot-label mb-6">Feature Card</p>
+            <p class="font-display text-3xl italic text-mark">01</p>
+            <div class="mt-6 mb-5 flex h-8 w-8 items-center justify-center text-ink" aria-hidden="true">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="7" />
+              </svg>
+            </div>
+            <p class="slot-label mb-2">Feature / Service Name</p>
+            <h3 class="font-display text-2xl font-semibold leading-tight">[Feature/Service Name]</h3>
+            <p class="slot-label mb-2 mt-4">Short Description</p>
+            <p class="text-sm leading-relaxed text-mute">[Short description]</p>
+          </article>
+
+          <article class="stagger-item card-tilt border-t border-ink py-8 md:border-t-0 md:border-r md:border-ink md:px-6 md:py-2">
+            <p class="slot-label mb-6">Feature Card</p>
+            <p class="font-display text-3xl italic text-mark">02</p>
+            <div class="mt-6 mb-5 flex h-8 w-8 items-center justify-center text-ink" aria-hidden="true">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <rect x="6" y="6" width="12" height="12" rx="0" />
+              </svg>
+            </div>
+            <p class="slot-label mb-2">Feature / Service Name</p>
+            <h3 class="font-display text-2xl font-semibold leading-tight">[Feature/Service Name]</h3>
+            <p class="slot-label mb-2 mt-4">Short Description</p>
+            <p class="text-sm leading-relaxed text-mute">[Short description]</p>
+          </article>
+
+          <article class="stagger-item card-tilt border-t border-ink py-8 md:border-t-0 md:border-r md:border-ink md:px-6 md:py-2">
+            <p class="slot-label mb-6">Feature Card</p>
+            <p class="font-display text-3xl italic text-mark">03</p>
+            <div class="mt-6 mb-5 flex h-8 w-8 items-center justify-center text-ink" aria-hidden="true">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 6v12M6 12h12" stroke-linecap="round" />
+              </svg>
+            </div>
+            <p class="slot-label mb-2">Feature / Service Name</p>
+            <h3 class="font-display text-2xl font-semibold leading-tight">[Feature/Service Name]</h3>
+            <p class="slot-label mb-2 mt-4">Short Description</p>
+            <p class="text-sm leading-relaxed text-mute">[Short description]</p>
+          </article>
+
+          <article class="stagger-item card-tilt border-t border-ink py-8 md:border-t-0 md:px-6 md:py-2">
+            <p class="slot-label mb-6">Feature Card</p>
+            <p class="font-display text-3xl italic text-mark">04</p>
+            <div class="mt-6 mb-5 flex h-8 w-8 items-center justify-center text-ink" aria-hidden="true">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path d="M5 16l7-8 7 8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <p class="slot-label mb-2">Feature / Service Name</p>
+            <h3 class="font-display text-2xl font-semibold leading-tight">[Feature/Service Name]</h3>
+            <p class="slot-label mb-2 mt-4">Short Description</p>
+            <p class="text-sm leading-relaxed text-mute">[Short description]</p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         4. GALLERY — mixed spanning tiles
+         ===================================================================== -->
+    <section id="gallery">
+      <div class="mx-auto max-w-6xl px-6 py-24 sm:px-8 sm:py-28">
+        <div class="reveal-up mb-12 flex items-end justify-between gap-6">
+          <div>
+            <p class="slot-label mb-4">Section Label</p>
+            <p class="mb-4 text-xs font-semibold uppercase tracking-label text-mark">Gallery / Showcase — 04</p>
+            <p class="slot-label mb-2">Section Heading</p>
+            <h2 class="font-display text-4xl font-semibold tracking-tight sm:text-5xl">[Visual work or space]</h2>
+          </div>
+        </div>
+
+        <div class="stagger grid grid-cols-2 gap-3 md:grid-cols-4 md:grid-rows-2 md:gap-4">
+
+          <figure class="stagger-item ph-box flex min-h-[16rem] flex-col items-center justify-center md:col-span-2 md:row-span-2 md:min-h-[28rem]">
+            <p class="slot-label mb-2 !text-[#7A7A7A]">Image Slot — Large</p>
+            <svg class="mb-2 h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="0" />
+              <circle cx="8.5" cy="10" r="1.5" />
+              <path d="M21 16l-5-5-9 9" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <figcaption class="text-xs uppercase tracking-label">[Image]</figcaption>
+          </figure>
+
+          <figure class="stagger-item ph-box-light flex min-h-[10rem] flex-col items-center justify-center md:col-span-2">
+            <p class="slot-label mb-2">Image Slot — Wide</p>
+            <svg class="mb-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="0" />
+              <circle cx="8.5" cy="10" r="1.5" />
+              <path d="M21 16l-5-5-9 9" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <figcaption class="text-xs uppercase tracking-label">[Image]</figcaption>
+          </figure>
+
+          <figure class="stagger-item ph-box flex min-h-[10rem] flex-col items-center justify-center">
+            <p class="slot-label mb-2 !text-[#7A7A7A]">Image Slot</p>
+            <svg class="mb-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="0" />
+            </svg>
+            <figcaption class="text-xs uppercase tracking-label">[Image]</figcaption>
+          </figure>
+
+          <figure class="stagger-item ph-box-light flex min-h-[10rem] flex-col items-center justify-center">
+            <p class="slot-label mb-2">Image Slot</p>
+            <svg class="mb-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="0" />
+            </svg>
+            <figcaption class="text-xs uppercase tracking-label">[Image]</figcaption>
+          </figure>
+
+          <figure class="stagger-item ph-box-light flex min-h-[10rem] flex-col items-center justify-center md:col-span-2">
+            <p class="slot-label mb-2">Image Slot — Wide</p>
+            <svg class="mb-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="0" />
+              <circle cx="8.5" cy="10" r="1.5" />
+              <path d="M21 16l-5-5-9 9" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <figcaption class="text-xs uppercase tracking-label">[Image]</figcaption>
+          </figure>
+
+          <figure class="stagger-item ph-box flex min-h-[10rem] flex-col items-center justify-center md:col-span-2">
+            <p class="slot-label mb-2 !text-[#7A7A7A]">Image Slot — Wide</p>
+            <svg class="mb-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="0" />
+              <circle cx="8.5" cy="10" r="1.5" />
+              <path d="M21 16l-5-5-9 9" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <figcaption class="text-xs uppercase tracking-label">[Image]</figcaption>
+          </figure>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         5. TESTIMONIAL — oversized pull quote
+         ===================================================================== -->
+    <section id="testimonial" class="bg-ink text-paper">
+      <div class="mx-auto max-w-6xl px-6 py-24 sm:px-8 sm:py-32">
+        <div class="reveal-left">
+          <p class="slot-label mb-4 !text-[#7A7A7A]">Section Label</p>
+          <p class="mb-10 text-xs font-semibold uppercase tracking-label text-mark">Testimonial — 05</p>
+        </div>
+
+        <blockquote class="grid gap-10 lg:grid-cols-12">
+          <div class="reveal-left lg:col-span-10">
+            <p class="slot-label mb-4 !text-[#7A7A7A]">Customer Quote</p>
+            <p class="font-display text-4xl font-medium leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
+              “[Customer quote goes here]”
+            </p>
+          </div>
+          <footer class="reveal-right flex flex-col justify-end lg:col-span-2 lg:text-right">
+            <p class="slot-label mb-2 !text-[#7A7A7A]">Customer Name</p>
+            <cite class="not-italic text-sm text-paper/70">[Customer Name]</cite>
+          </footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         6. CALL-TO-ACTION — full-bleed mark red, huge type
+         ===================================================================== -->
+    <section id="cta" class="bg-mark text-paper">
+      <div class="mx-auto max-w-6xl px-6 py-24 sm:px-8 sm:py-32">
+        <p class="slot-label mb-4 !text-white/55">Section Label</p>
+        <p class="mb-8 text-xs font-semibold uppercase tracking-label text-white/70">Call to Action — 06</p>
+
+        <div class="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+          <div class="reveal-left max-w-3xl">
+            <p class="slot-label mb-3 !text-white/55">Action Heading</p>
+            <h2 class="font-display text-5xl font-semibold leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
+              [Action heading]
+            </h2>
+            <p class="slot-label mb-2 mt-6 !text-white/55">Action Supporting Line</p>
+            <p class="max-w-md text-base text-white/80">
+              [One supporting line that tells the visitor what happens next.]
+            </p>
+          </div>
+          <div class="reveal-right">
+            <p class="slot-label mb-3 !text-white/55">CTA Button</p>
+            <a href="#" class="inline-flex items-center bg-ink px-8 py-4 text-xs font-semibold uppercase tracking-label text-paper hover:bg-paper hover:text-ink">
+              [Contact/Order/Book Button]
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =====================================================================
+       7. FOOTER — editorial colophon
+       ===================================================================== -->
+  <footer class="bg-paper">
+    <div class="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-14 sm:px-8 md:flex-row md:items-start md:justify-between">
+      <div>
+        <p class="slot-label mb-2">Brand</p>
+        <p class="font-display text-2xl italic">[Business Name]</p>
+        <p class="slot-label mb-1 mt-5">Contact Info</p>
+        <p class="text-sm text-mute">[Contact Info]</p>
+      </div>
+
+      <nav class="flex gap-10" aria-label="Footer">
+        <div>
+          <p class="slot-label mb-2">Footer Link</p>
+          <a href="#" class="link-underline text-sm">[Link]</a>
+        </div>
+        <div>
+          <p class="slot-label mb-2">Footer Link</p>
+          <a href="#" class="link-underline text-sm">[Link]</a>
+        </div>
+        <div>
+          <p class="slot-label mb-2">Footer Link</p>
+          <a href="#" class="link-underline text-sm">[Link]</a>
+        </div>
+      </nav>
+    </div>
+    <div class="border-t border-line">
+      <p class="mx-auto max-w-6xl px-6 py-5 text-xs uppercase tracking-label text-mute sm:px-8">
+        © [Year] [Business Name]
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var header = document.getElementById("site-header");
+      var onScroll = function () {
+        if (window.scrollY > 16) header.classList.add("is-scrolled");
+        else header.classList.remove("is-scrolled");
+      };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+
+      function revealAll(selector, options) {
+        var nodes = document.querySelectorAll(selector);
+        if (!nodes.length) return;
+        if (!("IntersectionObserver" in window)) {
+          nodes.forEach(function (el) { el.classList.add("is-visible"); });
+          return;
+        }
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var el = entry.target;
+            if (el.classList.contains("stagger")) {
+              var kids = el.querySelectorAll(".stagger-item");
+              kids.forEach(function (kid, i) {
+                kid.style.transitionDelay = (i * 90) + "ms";
+                kid.classList.add("is-visible");
+              });
+            } else {
+              el.classList.add("is-visible");
+            }
+            observer.unobserve(el);
+          });
+        }, options || { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+        nodes.forEach(function (el) { observer.observe(el); });
+      }
+
+      revealAll(".reveal-up, .reveal-left, .reveal-right");
+      revealAll(".stagger");
+    })();
+  </script>
+</body>
+</html>
